@@ -14,14 +14,14 @@ type User struct {
 }
 
 func main() {
-	users := readUserDataFromExcel()
+	users := readUserDataFromExcel("users.xlsx")
 	for i, p := range users {
 		fmt.Printf("User %d: %+v\n", i+1, p)
 	}
 }
 
-func readUserDataFromExcel() (users []User) {
-	f, error := excelize.OpenFile("users.xlsx")
+func readUserDataFromExcel(filepath string) (users []User) {
+	f, error := excelize.OpenFile(filepath)
 	if error != nil {
 		log.Fatal(error)
 		return nil
