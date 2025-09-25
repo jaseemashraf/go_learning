@@ -27,13 +27,13 @@ type DbConfig struct {
 
 func main() {
 	users := readUserDataFromExcel("users.xlsx")
-	dbConfig := get_db_creds()
-	db := config_db(dbConfig.DBUser, dbConfig.DBPassword, dbConfig.DBHost, dbConfig.DBName)
+	dbConfig := getDbCreds("db_config.json")
+	db := configDatabase(dbConfig.DBUser, dbConfig.DBPassword, dbConfig.DBHost, dbConfig.DBName)
 	save_data_from_struct_to_db(db, users)
 }
 
-func get_db_creds() DbConfig {
-	configFile, error := os.Open("db_config.json")
+func getDbCreds(filepath string) DbConfig {
+	configFile, error := os.Open(filepath)
 	if error != nil {
 		log.Fatal("Error opening config.json:", error)
 	}
@@ -70,12 +70,12 @@ func readUserDataFromExcel(filepath string) (users []User) {
 	return users
 }
 
-func config_db(user_name string, password string, host string, database_name string) *gorm.DB {
+func configDatabase(user_name string, password string, host string, database_name string) *gorm.DB {
 	db_uri := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		user_name, password, host, database_name)
 	db, error := gorm.Open(mysql.Open(db_uri), &gorm.Config{})
 	if error != nil {
-		log.Fatal("Connection to database failed: ", error)
+		log.Printf("Connection to database failed: %v", error)
 		return nil
 	}
 	return db
