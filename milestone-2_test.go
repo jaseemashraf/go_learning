@@ -20,8 +20,8 @@ func TestReadUserDataFromExcel_ValidExcelFile(t *testing.T) {
 	f.SetCellValue("Sheet1", "B3", "Jones")
 	f.SetCellValue("Sheet1", "C3", "30")
 	filePath := filepath.Join(t.TempDir(), "test_users.xlsx")
-	if err := f.SaveAs(filePath); err != nil {
-		t.Fatalf("Failed to save test Excel file: %v", err)
+	if error := f.SaveAs(filePath); error != nil {
+		t.Fatalf("Failed to save test Excel file: %v", error)
 	}
 
 	users := readUserDataFromExcel(filePath)

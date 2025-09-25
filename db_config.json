@@ -1,0 +1,6 @@
+{
+    "db_user": "go_user",
+    "db_password": "go_learner",
+    "db_host": "127.0.0.1:3306",
+    "db_name": "go_learning"
+}
